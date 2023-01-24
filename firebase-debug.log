@@ -1,0 +1,28 @@
+[debug] [2022-09-29T12:31:25.570Z] ----------------------------------------------------------------------
+[debug] [2022-09-29T12:31:25.573Z] Command:       /usr/bin/node /usr/bin/firebase init emulators
+[debug] [2022-09-29T12:31:25.574Z] CLI Version:   11.10.0
+[debug] [2022-09-29T12:31:25.574Z] Platform:      linux
+[debug] [2022-09-29T12:31:25.574Z] Node Version:  v16.16.0
+[debug] [2022-09-29T12:31:25.575Z] Time:          Thu Sep 29 2022 13:31:25 GMT+0100 (West Africa Standard Time)
+[debug] [2022-09-29T12:31:25.575Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-09-29T12:31:25.584Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-09-29T12:31:25.584Z] > authorizing via signed-in user (senatorasonganyi97@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /home/rouclec/Documents/projects/node/bank-management-node
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
