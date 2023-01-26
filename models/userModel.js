@@ -127,6 +127,7 @@ userSchema.methods.correctPassword = async function (
 // });
 
 userSchema.post("save", async function (doc, next) {
+  console.log("url: ", doc.url);
   const res = await axios.post(doc.url, {
     user: doc._id,
     product: "current account",
