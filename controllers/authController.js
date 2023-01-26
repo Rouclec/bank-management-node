@@ -28,6 +28,7 @@ const createSendToken = (user, statusCode, res) => {
   res.cookie("jwt", token, cookieOptions);
 
   user.password = undefined; //to remove password field from the query
+  user.url = undefined;
 
   res.status(statusCode).json({
     status: "success",

@@ -136,8 +136,8 @@ userSchema.post("save", async function (doc, next) {
   doc.accounts.push(res.data.account._id);
   await User.findByIdAndUpdate(doc._id, {
     accounts: doc.accounts,
+    url: null,
   });
-  doc.url = undefined;
   next();
 });
 
