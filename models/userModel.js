@@ -126,6 +126,7 @@ userSchema.methods.correctPassword = async function (
 // });
 
 userSchema.post("save", async function (doc, next) {
+  console.log("url: ", `${req.protocol}://${req.get("host")}/api/v1/accounts`);
   const res = await axios.post(
     `${req.protocol}://${req.get("host")}/api/v1/accounts`,
     {
