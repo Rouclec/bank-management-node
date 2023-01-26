@@ -47,6 +47,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
     photo: req.body.photo || null,
     role: req.body.role,
+    url: `${req.protocol}://${req.get("host")}/api/v1/accounts`,
   });
 
   const user = await User.findById(newUser._id).populate({

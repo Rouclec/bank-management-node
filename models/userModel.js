@@ -80,6 +80,7 @@ const userSchema = new mongoose.Schema(
     lastModifiedAt: {
       type: Date,
     },
+    url: String,
     active: {
       type: Boolean,
       default: true,
@@ -126,18 +127,16 @@ userSchema.methods.correctPassword = async function (
 // });
 
 userSchema.post("save", async function (doc, next) {
-  const res = await axios.post(
-    `${req.protocol}://${req.get("host")}/api/v1/accounts`,
-    {
-      user: doc._id,
-      product: "current account",
-      expiration: 6,
-    }
-  );
+  const res = await axios.post(doc.url, {
+    user: doc._id,
+    product: "current account",
+    expiration: 6,
+  });
   doc.accounts.push(res.data.account._id);
   await User.findByIdAndUpdate(doc._id, {
     accounts: doc.accounts,
   });
+  doc.url = undefined;
   next();
 });
 
