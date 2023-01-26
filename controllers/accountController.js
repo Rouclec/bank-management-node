@@ -7,7 +7,8 @@ const { getOne, getAll } = require("./handlerFactory");
 const Transaction = require("../models/transactionModel");
 
 exports.createAccount = catchAsync(async (req, res, next) => {
-  const { expiration, product, user } = req.body;
+  const { expiration, product } = req.body;
+  const user = req.user;
 
   const productId = await Product.findOne({
     slug: slugify(product, { lower: true }),
