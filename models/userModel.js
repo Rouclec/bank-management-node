@@ -126,11 +126,14 @@ userSchema.methods.correctPassword = async function (
 // });
 
 userSchema.post("save", async function (doc, next) {
-  const res = await axios.post("http://127.0.0.1:3000/api/v1/accounts", {
-    user: doc._id,
-    product: "current account",
-    expiration: 6,
-  });
+  const res = await axios.post(
+    `${req.protocol}://${req.get("host")}/api/v1/accounts`,
+    {
+      user: doc._id,
+      product: "current account",
+      expiration: 6,
+    }
+  );
   doc.accounts.push(res.data.account._id);
   await User.findByIdAndUpdate(doc._id, {
     accounts: doc.accounts,
