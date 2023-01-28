@@ -80,7 +80,10 @@ const userSchema = new mongoose.Schema(
     lastModifiedAt: {
       type: Date,
     },
-    url: String,
+    url: {
+      type: String,
+      select: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -125,7 +128,6 @@ userSchema.post("save", async function (doc, next) {
   doc.accounts.push(res.data.account._id);
   await User.findByIdAndUpdate(doc._id, {
     accounts: doc.accounts,
-    url: null,
   });
   next();
 });
