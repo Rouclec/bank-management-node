@@ -14,6 +14,15 @@ exports.createAccount = catchAsync(async (req, res, next) => {
   const productId = await Product.findOne({
     slug: slugify(product, { lower: true }),
   });
+
+  if (!productId) {
+    return next(
+      res.status(404).json({
+        status: "Not Found",
+        message: "Product does not exist!",
+      })
+    );
+  }
   //create the account with the user, product and expiration
   const account = await Account.create({
     user,

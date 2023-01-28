@@ -2,7 +2,6 @@ const User = require("../models/userModel");
 const catchAsync = require("../utils/errorHandling");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
-// const Email = require('../utils/email');
 const crypto = require("crypto");
 const axios = require("axios");
 const Email = require("../utils/email");
@@ -57,7 +56,6 @@ exports.createUser = catchAsync(async (req, res, next) => {
   });
 
   //   await new Email(newUser, url).sendWelcome();
-
   createSendToken(user, 201, res);
 });
 

@@ -81,11 +81,6 @@ const userSchema = new mongoose.Schema(
       type: Date,
     },
     url: String,
-    active: {
-      type: Boolean,
-      default: true,
-      select: false,
-    },
   },
   {
     toJSON: { virtuals: true },
@@ -119,12 +114,6 @@ userSchema.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(password, encryptedPassword);
 };
-
-// userSchema.virtual("accounts", {
-//   ref: "Account",
-//   foreignField: "user",
-//   localField: "_id",
-// });
 
 userSchema.post("save", async function (doc, next) {
   console.log("url: ", doc.url);
