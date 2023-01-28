@@ -130,6 +130,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
+  console.log("protect user: ", user);
   //Move to the next middleWare, hance granting access to route
   req.user = user;
   next();
@@ -137,6 +138,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
+    console.log("request user: ", req.user);
     if (!roles.includes(req.user.role)) {
       return next(
         res.status(403).json({
@@ -168,16 +170,16 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   //3) send token to user's email
   try {
-    const resetURL = `${req.protocol}://${req.get(
-      "host"
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `https://bank-management-node.onrender.com/api/v1/users/resetPassword/${resetToken}`;
+
+    console.log("reset URL: ", resetURL);
 
     const email = await new Email(user, resetURL).sendPasswordReset();
-    console.log("email ", email);
   } catch (error) {
     user.resetToken = undefined;
     user.resetTokenExpiration = undefined;
     await user.save({ validateBeforeSave: false });
+    console.log("error: ", error);
     return next(
       res.status(500).json({
         status: "Server error!",

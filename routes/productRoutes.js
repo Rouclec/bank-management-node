@@ -1,5 +1,5 @@
 const express = require("express");
-const { restrictTo } = require("../controllers/authController");
+const { restrictTo, protect } = require("../controllers/authController");
 const {
   getAllProducts,
   createProduct,
@@ -10,6 +10,7 @@ const {
 
 const router = express.Router();
 
+router.use(protect);
 router.route("/").get(getAllProducts).post(restrictTo("admin"), createProduct);
 router.route("/:id").get(getProduct).delete(deleteProduct).patch(updateProduct);
 
