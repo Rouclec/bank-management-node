@@ -40,7 +40,7 @@ exports.createAccount = catchAsync(async (req, res, next) => {
 exports.userDeactivateAccount = catchAsync(async (req, res, next) => {
   const account = await Account.findById(req.account._id); //find the account by the id passed in the request
   //if the account doesn't belong to the user, throw an error
-  if (!account.isUsersAccount(res.user)) {
+  if (!account.isUsersAccount(req.user)) {
     return res.status(403).json({
       status: "Forbidden",
       message: "You don't have access to perform this action!",
@@ -91,7 +91,7 @@ exports.fetchAccount = catchAsync(async (req, res, next) => {
       message: "Account not found!",
     });
   }
-  if (!(account.isUsersAccount(res.user) || res.user.role === "admin")) {
+  if (!(account.isUsersAccount(req.user) || res.user.role === "admin")) {
     return res.status(403).json({
       status: "Forbidden",
       message: "You don't have access to perform this action!",
@@ -281,16 +281,12 @@ exports.confirmTransaction = catchAsync(async (req, res, next) => {
       balance: sendersAccount.balance - amount,
     });
   } else {
-    await Transaction.findByIdAndUpdate(transaction._id, {
-      status: "Failed",
-    });
     if (sendersAccount.balance - amount < 0) {
       return res.status(400).json({
         status: "Bad Request",
         message: "Insufficient funds!",
       });
     }
-
     if (
       receiversAccount.balance + amount >
       receiversAccount.product.maximumAmount
@@ -308,7 +304,7 @@ exports.confirmTransaction = catchAsync(async (req, res, next) => {
       balance: sendersAccount.balance - amount,
     });
     await Account.findByIdAndUpdate(receiversAccount._id, {
-      balance: sendersAccount.balance + amount,
+      balance: receiversAccount.balance + amount,
     });
   }
 
