@@ -9,17 +9,16 @@ const {
   getOne,
 } = require("./handlerFactory");
 
-
-const multer = require('multer');
+const multer = require("multer");
 const sharp = require("sharp");
 
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cbFxn) => {
-  if (file.mimetype.startsWith('image')) {
+  if (file.mimetype.startsWith("image")) {
     cbFxn(null, true);
   } else {
-    cbFxn('Error: Not an image! Please upload only images', false);
+    cbFxn("Error: Not an image! Please upload only images", false);
   }
 };
 
@@ -27,25 +26,22 @@ const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
 });
-exports.uploadFile = upload.single('photo');
+exports.uploadFile = upload.single("photo");
 
 exports.resizePhoto = catchAsync(async (req, res, next) => {
-  if(!req.file) return next();
+  if (!req.file) return next();
 
   req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
   await sharp(req.file.buffer)
     .resize(500, 500) //reizes the image to 500x500
-    .toFormat('jpeg') //converts the image to a jpeg format
+    .toFormat("jpeg") //converts the image to a jpeg format
     .jpeg({ quality: 90 }) //sets the quality to 90% of the original quality
     .toFile(`public/img/users/${req.file.filename}`);
   next();
 });
 
 exports.getUser = getOne(User, "accounts");
-// exports.updateProduct = updateOne(Product);
-// exports.getAllProducts = getAll(Product);
-// exports.deleteProduct = deleteOne(Product);
 
 exports.getMe = (req, res, next) => {
   req.params.id = req.user.id;
@@ -56,11 +52,14 @@ exports.addAccount = catchAsync(async (req, res, next) => {
   const user = req.user;
 
   const { product, expiration } = req.body;
-  const accountRes = await axios.post("http://127.0.0.1:3000/api/v1/accounts", {
-    user: user._id,
-    product: product,
-    expiration: expiration * 1,
-  });
+  const accountRes = await axios.post(
+    `${req.protocol}://${req.get("host")}/api/v1/accounts`,
+    {
+      user: user._id,
+      product: product,
+      expiration: expiration * 1,
+    }
+  );
   user.accounts.push(accountRes.data.account._id);
 
   await User.findByIdAndUpdate(user._id, {
